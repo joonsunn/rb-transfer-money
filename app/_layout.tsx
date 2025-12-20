@@ -1,17 +1,6 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Stack } from "expo-router";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Stack
       screenOptions={{
@@ -22,6 +11,20 @@ export default function RootLayout() {
       <Stack.Screen name="index" options={{ header: () => <></> }} />
       <Stack.Screen name="about" />
       <Stack.Screen name="transfer" options={{ header: () => <></> }} />
+      <Stack.Screen
+        name="bank-transfer"
+        options={{
+          headerTitle: "Transfer",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="bank-transfer-input"
+        options={{
+          headerTitle: "Transfer",
+          headerTitleAlign: "center",
+        }}
+      />
     </Stack>
   );
 }
