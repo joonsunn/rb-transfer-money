@@ -67,7 +67,7 @@ export function PasswordModal({
           <Pressable
             style={{
               bottom: 0,
-              ...(password ? {} : { opacity: 0.5 }),
+              ...(password ? {} : { opacity: 0.7 }),
             }}
             onPress={() => {
               if (password) {

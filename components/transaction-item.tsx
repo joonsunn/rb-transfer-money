@@ -31,21 +31,26 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
           <Text
             style={{
               fontSize: 16,
+              fontWeight: 600,
             }}
           >
-            {bank?.label}
+            To {bank?.label}
           </Text>
           <Text
             style={{
               fontSize: 16,
             }}
           >
-            {transaction.toAccountNumber}
+            {new Date(transaction.dateTime).toLocaleString("en-MY", { dateStyle: "medium", timeStyle: "short" })}
           </Text>
         </View>
       </View>
-      <Text>
-        {transaction.toAmount.toLocaleString("en-UK", { style: "currency", currency: "MYR" }).replace("MYR", "RM")}
+      <Text
+        style={{
+          fontWeight: 600,
+        }}
+      >
+        {(-transaction.toAmount).toLocaleString("en-UK", { style: "currency", currency: "MYR" }).replace("MYR", "RM")}
       </Text>
     </View>
   );
