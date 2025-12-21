@@ -60,6 +60,13 @@ export default function RootLayout() {
             ),
           })}
         />
+        <Stack.Screen
+          name="bank-transfer-confirm"
+          options={{
+            headerTitle: "Confirmation",
+            headerTitleAlign: "center",
+          }}
+        />
       </Stack>
     </AccountInfoContextProvider>
   );

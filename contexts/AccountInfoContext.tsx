@@ -58,4 +58,5 @@ export type AccountTransaction = {
   toAmount: number;
   toBank: string;
   dateTime: Date;
+  note: string;
 };

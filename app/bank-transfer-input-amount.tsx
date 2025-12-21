@@ -3,9 +3,7 @@ import { BankList } from "@/constants/bank-list";
 import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigation } from "expo-router";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
-import { useLayoutEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,16 +20,11 @@ export default function BankTransferInputAmount() {
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
   const tintColor = useThemeColor({}, "tint");
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ toAccountNumber: string; toBank: string }>();
-  const { toAccountNumber, toBank } = params;
+  const params = useLocalSearchParams<{ toAccountNumber: string; toBank: string; toName: string }>();
+  const { toAccountNumber, toBank, toName } = params;
   const router = useRouter();
 
-  const { setOptions } = useNavigation();
-  const { addTransaction, accountBalance } = useAccountInfoContext();
-
-  useLayoutEffect(() => {
-    setOptions({ title: toAccountNumber });
-  }, [toAccountNumber, setOptions]);
+  const { accountBalance } = useAccountInfoContext();
 
   const {
     control,
@@ -43,26 +36,24 @@ export default function BankTransferInputAmount() {
   });
 
   function onSubmit(data: z.infer<typeof schema>) {
-    const now = new Date();
-    const result = addTransaction({
-      dateTime: now,
-      id: now.valueOf().toString(),
+    const insufficientBalance = accountBalance < data.amount;
+
+    if (insufficientBalance) {
+      setError("amount", { message: "Insufficent account balance" });
+      return;
+    }
+    const newTransaction = {
       toAccountNumber,
       toAmount: data.amount,
       toBank,
-    });
-
-    if (result.message === "success") {
-      router.push({ pathname: "/" });
-    } else if (result.error) {
-      setError("amount", { message: result.error });
-    }
+      toName,
+    };
+    router.push({ pathname: "/bank-transfer-confirm", params: newTransaction });
   }
 
   return (
     <View
       style={{
-        // padding: 18,
         gap: 32,
         paddingTop: insets.top,
         height: "100%",
@@ -192,6 +183,7 @@ export default function BankTransferInputAmount() {
               style={{
                 color: "white",
                 fontSize: 16,
+                fontWeight: 600,
               }}
             >
               Next

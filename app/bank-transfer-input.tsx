@@ -119,6 +119,7 @@ function BankTransferInput() {
             style={{
               color: "white",
               fontSize: 16,
+              fontWeight: 600,
             }}
           >
             Next
