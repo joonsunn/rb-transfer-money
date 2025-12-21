@@ -23,15 +23,16 @@ export default function BankTransferConfirm() {
 
   function handleApprove() {
     const now = new Date();
-    addTransaction({
-      dateTime: now,
+    const newTransaction = {
+      dateTime: now.toISOString(),
       id: now.valueOf().toString(),
       toAccountNumber: String(toAccountNumber),
       toAmount: Number(toAmount),
       toBank: String(toBank),
       note: optionalNote,
-    });
-    router.push("/");
+    };
+    addTransaction(newTransaction);
+    router.push({ pathname: "/bank-transfer-success", params: { ...newTransaction, toName } });
   }
 
   return (

@@ -21,6 +21,7 @@ const MAPPING = {
   phone: "phone-android",
   "square.grid.2x2": "widgets",
   "arrow.up.right": "call-made",
+  checkmark: "check",
 } as const;
 
 export type IconSymbolName = keyof typeof MAPPING;

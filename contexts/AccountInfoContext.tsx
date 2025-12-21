@@ -28,7 +28,7 @@ export function AccountInfoContextProvider({ children }: PropsWithChildren) {
     }
     setAccountBalance(newAccountBalance);
     const newTransactions = [newTransaction, ...transactions].sort(
-      (a, b) => b.dateTime.valueOf() - a.dateTime.valueOf()
+      (a, b) => new Date(b.dateTime).valueOf() - new Date(a.dateTime).valueOf()
     );
     setTransactions(newTransactions);
 
@@ -57,6 +57,6 @@ export type AccountTransaction = {
   toAccountNumber: string;
   toAmount: number;
   toBank: string;
-  dateTime: Date;
+  dateTime: string;
   note: string;
 };

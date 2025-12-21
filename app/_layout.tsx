@@ -67,6 +67,7 @@ export default function RootLayout() {
             headerTitleAlign: "center",
           }}
         />
+        <Stack.Screen name="bank-transfer-success" options={{ header: () => <></> }} />
       </Stack>
     </AccountInfoContextProvider>
   );
