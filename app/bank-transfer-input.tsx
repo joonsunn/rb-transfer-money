@@ -1,22 +1,63 @@
 import { BankItemRenderer } from "@/components/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
+import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { useLocalSearchParams } from "expo-router/build/hooks";
-import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { z } from "zod";
+
+type TransferRequest = {
+  accountNumber: string;
+};
+
+const schema = z.object({
+  accountNumber: z
+    .string()
+    .nonempty({ message: "Account number is required" })
+    .regex(/^\d{9,18}$/, { message: "Please check that the account number provided is valid" }),
+});
 
 function BankTransferInput() {
   const params = useLocalSearchParams<{ bank: string }>();
   const tintColor = useThemeColor({}, "tint");
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
-  const [accountNumber, setAccountNumber] = useState<string>("");
+  const { addTransaction } = useAccountInfoContext();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TransferRequest>({
+    resolver: zodResolver(schema),
+    defaultValues: { accountNumber: "" },
+  });
+
+  const onSubmit = async (data: TransferRequest) => {
+    const now = new Date();
+    addTransaction({
+      dateTime: now,
+      id: now.valueOf().toString(),
+      toAccountNumber: data.accountNumber,
+      toAmount: 1000,
+      toBank: params.bank,
+    });
+
+    router.replace("/");
+  };
 
   return (
     <View
       style={{
         padding: 18,
         gap: 32,
-        paddingTop: 18,
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
         height: "100%",
       }}
     >
@@ -40,17 +81,28 @@ function BankTransferInput() {
           >
             Account number
           </Text>
-          <TextInput
-            value={accountNumber}
-            onChangeText={setAccountNumber}
-            placeholder="Enter account number"
-            placeholderTextColor="grey"
-            style={{
-              padding: 10,
-              fontSize: 18,
-              borderBottomColor: primaryForegroundColor,
-              borderBottomWidth: 3,
-            }}
+          <Controller
+            control={control}
+            name="accountNumber"
+            render={({ field: { value, onChange } }) => (
+              <>
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="Enter account number"
+                  placeholderTextColor="grey"
+                  style={{
+                    padding: 10,
+                    fontSize: 18,
+                    borderBottomColor: primaryForegroundColor,
+                    borderBottomWidth: 3,
+                  }}
+                />
+                {errors.accountNumber && (
+                  <Text style={{ color: "red", marginTop: 4 }}>{errors.accountNumber.message}</Text>
+                )}
+              </>
+            )}
           />
         </View>
       </View>
@@ -59,7 +111,7 @@ function BankTransferInput() {
         style={{
           bottom: 0,
         }}
-        // onPress={() => console.log("hello button")}
+        onPress={handleSubmit(onSubmit)}
       >
         <View
           style={{

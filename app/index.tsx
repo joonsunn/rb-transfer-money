@@ -3,11 +3,14 @@ import { Platform, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export default function Index() {
   const insets = useSafeAreaInsets();
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
+
+  const { accountBalance } = useAccountInfoContext();
 
   return (
     <View
@@ -36,7 +39,7 @@ export default function Index() {
           fontWeight: "bold",
         }}
       >
-        RM 10,000.00
+        {accountBalance.toLocaleString("en-UK", { style: "currency", currency: "MYR" }).replace("MYR", "RM")}
       </Text>
       <Link href="/transfer">
         <View style={{ gap: 12 }}>
@@ -52,7 +55,14 @@ export default function Index() {
           >
             <IconSymbol name="arrow.up.right" color="white" />
           </View>
-          <Text>Transfer</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 500,
+            }}
+          >
+            Transfer
+          </Text>
         </View>
       </Link>
     </View>
