@@ -49,7 +49,7 @@ function BankTransferInput() {
         padding: 18,
         gap: 32,
         paddingTop: insets.top,
-        paddingBottom: insets.bottom,
+        paddingBottom: insets.bottom + 10,
         height: "100%",
       }}
     >

@@ -23,7 +23,7 @@ export default function BankTransferSuccess() {
       style={{
         gap: 32,
         paddingTop: insets.top + 40,
-        paddingBottom: insets.bottom,
+        paddingBottom: insets.bottom + 10,
         height: "100%",
         paddingHorizontal: 18,
       }}
@@ -39,6 +39,7 @@ export default function BankTransferSuccess() {
           style={{
             width: "100%",
             alignItems: "center",
+            gap: 8,
           }}
         >
           <IconSymbol name="checkmark" color={successColor} size={100} />

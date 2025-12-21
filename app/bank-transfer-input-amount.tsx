@@ -123,7 +123,7 @@ export default function BankTransferInputAmount() {
       </View>
       <View
         style={{
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom + 10,
           backgroundColor: tintColor,
           padding: 18,
           gap: 24,

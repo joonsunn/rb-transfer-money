@@ -1,8 +1,10 @@
 import { BankRenderer } from "@/components/bank-item-renderer";
+import { PasswordModal } from "@/components/password-modal";
 import { Separator } from "@/components/separator";
 import { BankList } from "@/constants/bank-list";
 import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import * as LocalAuthentication from "expo-local-authentication";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
@@ -15,13 +17,40 @@ export default function BankTransferConfirm() {
   const { addTransaction } = useAccountInfoContext();
   const router = useRouter();
   const [optionalNote, setOptionalNote] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [openPasswordModal, setOpenPasswordModal] = useState<boolean>(false);
 
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
   const tintColor = useThemeColor({}, "tint");
 
   const bank = BankList.find((bank) => bank.value === params.toBank);
 
-  function handleApprove() {
+  async function handleApprove() {
+    const isBiometricsAvailable = await LocalAuthentication.hasHardwareAsync();
+
+    const hasSavedBiometrics = await LocalAuthentication.isEnrolledAsync();
+
+    if (!hasSavedBiometrics || !isBiometricsAvailable) {
+      setOpenPasswordModal(true);
+      return;
+    }
+
+    let authenticated = false;
+
+    if (hasSavedBiometrics) {
+      const result = await LocalAuthentication.authenticateAsync({ promptMessage: "Approval is required" });
+
+      if (result.success) {
+        authenticated = true;
+      }
+    }
+
+    if (authenticated) {
+      submitTransactionAfterApproval();
+    }
+  }
+
+  function submitTransactionAfterApproval() {
     const now = new Date();
     const newTransaction = {
       dateTime: now.toISOString(),
@@ -40,7 +69,7 @@ export default function BankTransferConfirm() {
       style={{
         height: "100%",
         paddingTop: 40,
-        paddingBottom: insets.bottom,
+        paddingBottom: insets.bottom + 10,
         paddingHorizontal: 18,
         gap: 40,
       }}
@@ -194,6 +223,13 @@ export default function BankTransferConfirm() {
           </Text>
         </View>
       </Pressable>
+      <PasswordModal
+        openPasswordModal={openPasswordModal}
+        setOpenPasswordModal={setOpenPasswordModal}
+        password={password}
+        setPassword={setPassword}
+        submitTransactionAfterApproval={submitTransactionAfterApproval}
+      />
     </View>
   );
 }
