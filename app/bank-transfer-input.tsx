@@ -28,29 +28,37 @@ function BankTransferInput() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [accountNumber, setAccountNumber] = useState<string>("");
+  const [submitCount, setSubmitCount] = useState<number>(0);
   const { data: recipient, isLoading: recipientIsLoading } = useGetRecipientInfo({ accountNumber, bank: params.bank });
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid },
   } = useForm<TransferRequest>({
     resolver: zodResolver(schema),
-    defaultValues: { accountNumber: "" },
+    defaultValues: { accountNumber },
   });
 
   const onSubmit = async (data: TransferRequest) => {
     setAccountNumber(data.accountNumber);
+    setSubmitCount((c) => c + 1);
   };
 
   useEffect(() => {
-    if (!recipientIsLoading && recipient?.name) {
+    if (!recipientIsLoading && recipient?.name && submitCount > 0) {
       router.push({
         pathname: "/bank-transfer-input-amount",
         params: { toBank: params.bank, toAccountNumber: recipient.accountNumber },
       });
+      setSubmitCount(0);
     }
-  }, [recipient, params.bank, recipientIsLoading, router]);
+  }, [submitCount, recipient, recipientIsLoading, params.bank, router]);
+
+  useEffect(() => {
+    reset({ accountNumber });
+  }, [accountNumber, reset]);
 
   return (
     <View
@@ -114,6 +122,7 @@ function BankTransferInput() {
           bottom: 0,
         }}
         onPress={handleSubmit(onSubmit)}
+        disabled={!isValid}
       >
         <View
           style={{
@@ -122,6 +131,7 @@ function BankTransferInput() {
             paddingVertical: 18,
             justifyContent: "center",
             alignItems: "center",
+            ...(!isValid ? { opacity: 0.7 } : {}),
           }}
         >
           <Text
