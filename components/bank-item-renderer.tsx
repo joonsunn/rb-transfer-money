@@ -1,12 +1,13 @@
 import { BankListOption } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 import { IconSymbol } from "./ui/icon-symbol";
 
 type BankOptionProps = {
-  bank: BankListOption | undefined;
+  bank: BankListOption | undefined | null;
   navigate?: boolean;
+  iconOnly?: boolean;
 };
 
 export function BankItemRenderer({ bank, navigate }: BankOptionProps) {
@@ -30,17 +31,24 @@ export function BankItemRenderer({ bank, navigate }: BankOptionProps) {
   return <BankRenderer bank={bank} />;
 }
 
-function BankRenderer({ bank, navigate }: BankOptionProps & { bank: BankListOption }) {
+export function BankRenderer({ bank, navigate, iconOnly = false }: BankOptionProps) {
   const iconColor = useThemeColor({}, "icon");
+
+  if (!bank) return null;
 
   return (
     <View
       style={{
         flexDirection: "row",
-        padding: 16,
+        // padding: 16,
         alignItems: "center",
         justifyContent: "space-between",
-        width: "100%",
+        ...(iconOnly ? {} : { padding: 16 }),
+        ...(iconOnly
+          ? {}
+          : {
+              width: "100%",
+            }),
       }}
     >
       <View style={{ flexDirection: "row", gap: 24, alignItems: "center" }}>
@@ -50,28 +58,39 @@ function BankRenderer({ bank, navigate }: BankOptionProps & { bank: BankListOpti
             justifyContent: "center",
             alignItems: "center",
             borderRadius: 100,
-            width: 52,
-            height: 52,
+            width: Platform.select({
+              ios: 36,
+              default: 48,
+            }),
+            height: Platform.select({
+              ios: 36,
+              default: 48,
+            }),
           }}
         >
           <Text
             style={{
               color: bank.color,
               fontWeight: 500,
-              fontSize: 28,
+              fontSize: Platform.select({
+                ios: 20,
+                default: 28,
+              }),
             }}
           >
             {bank.label[0].toUpperCase()}
           </Text>
         </View>
-        <Text
-          style={{
-            fontWeight: 500,
-            fontSize: 16,
-          }}
-        >
-          {bank.label}
-        </Text>
+        {iconOnly ? null : (
+          <Text
+            style={{
+              fontWeight: 500,
+              fontSize: 16,
+            }}
+          >
+            {bank.label}
+          </Text>
+        )}
       </View>
       {navigate ? <IconSymbol name={"chevron.right"} color={iconColor} /> : null}
     </View>

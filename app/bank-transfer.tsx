@@ -2,9 +2,8 @@ import { BankItemRenderer } from "@/components/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feather } from "@expo/vector-icons";
-import { Link } from "expo-router";
 import { useState } from "react";
-import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Platform, ScrollView, TextInput, View } from "react-native";
 
 export default function BankTransfer() {
   const [searchText, setSearchText] = useState("");
@@ -53,11 +52,6 @@ export default function BankTransfer() {
         {filteredBanksList.map((bank, index) => (
           <BankItemRenderer key={index} bank={bank} navigate />
         ))}
-        <Pressable>
-          <Link href={"/"}>
-            <Text>Go Back</Text>
-          </Link>
-        </Pressable>
       </ScrollView>
     </View>
   );

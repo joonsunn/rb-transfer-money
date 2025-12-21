@@ -4,14 +4,14 @@ const defaultAccountBalanceContext = {
   accountBalance: 20000,
   setAccountBalance: () => {},
   transactions: [],
-  addTransaction: () => {},
+  addTransaction: () => ({}),
 };
 
 type AccountInfoContextType = {
   accountBalance: number;
   setAccountBalance: React.Dispatch<React.SetStateAction<number>>;
   transactions: AccountTransaction[];
-  addTransaction: (newTransaction: AccountTransaction) => { error: string } | { message: string } | void;
+  addTransaction: (newTransaction: AccountTransaction) => { error?: string; message?: string };
 };
 
 const AccountInfoContext = createContext<AccountInfoContextType>(defaultAccountBalanceContext);
@@ -21,7 +21,7 @@ export function AccountInfoContextProvider({ children }: PropsWithChildren) {
 
   const [transactions, setTransactions] = useState<AccountTransaction[]>([]);
 
-  function addTransaction(newTransaction: AccountTransaction): { error: string } | { message: string } {
+  function addTransaction(newTransaction: AccountTransaction): { error?: string; message?: string } {
     const newAccountBalance = accountBalance - newTransaction.toAmount;
     if (newAccountBalance < 0) {
       return { error: "Insufficient account balance" };
@@ -52,7 +52,7 @@ export const useAccountInfoContext = () => {
   return context;
 };
 
-type AccountTransaction = {
+export type AccountTransaction = {
   id: string;
   toAccountNumber: string;
   toAmount: number;

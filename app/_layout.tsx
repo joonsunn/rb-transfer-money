@@ -1,5 +1,9 @@
+import { BankRenderer } from "@/components/bank-item-renderer";
+import { BankList } from "@/constants/bank-list";
 import { AccountInfoContextProvider } from "@/contexts/AccountInfoContext";
 import { Stack } from "expo-router";
+import React from "react";
+import { Text, View } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -26,6 +30,35 @@ export default function RootLayout() {
             headerTitle: "Transfer",
             headerTitleAlign: "center",
           }}
+        />
+        <Stack.Screen
+          name="bank-transfer-input-amount"
+          options={({ route }) => ({
+            headerTitleAlign: "center",
+            headerTitle: () => (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: 600,
+                      fontSize: 18,
+                    }}
+                  >
+                    {(route.params as { toName: string })?.toName || ""}
+                  </Text>
+                </View>
+                <View>
+                  <Text>{(route.params as { toAccountNumber: string })?.toAccountNumber || ""}</Text>
+                </View>
+              </View>
+            ),
+            headerRight: () => (
+              <BankRenderer
+                bank={BankList.find((bank) => bank.value === (route.params as { toBank: string })?.toBank)}
+                iconOnly
+              />
+            ),
+          })}
         />
       </Stack>
     </AccountInfoContextProvider>

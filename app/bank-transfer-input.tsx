@@ -1,6 +1,5 @@
 import { BankItemRenderer } from "@/components/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
-import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
@@ -25,7 +24,6 @@ function BankTransferInput() {
   const params = useLocalSearchParams<{ bank: string }>();
   const tintColor = useThemeColor({}, "tint");
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
-  const { addTransaction } = useAccountInfoContext();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -39,16 +37,10 @@ function BankTransferInput() {
   });
 
   const onSubmit = async (data: TransferRequest) => {
-    const now = new Date();
-    addTransaction({
-      dateTime: now,
-      id: now.valueOf().toString(),
-      toAccountNumber: data.accountNumber,
-      toAmount: 1000,
-      toBank: params.bank,
+    router.push({
+      pathname: "/bank-transfer-input-amount",
+      params: { toBank: params.bank, toAccountNumber: data.accountNumber, toName: "JOHN DOE" },
     });
-
-    router.replace("/");
   };
 
   return (
@@ -87,6 +79,7 @@ function BankTransferInput() {
             render={({ field: { value, onChange } }) => (
               <>
                 <TextInput
+                  keyboardType="number-pad"
                   value={value}
                   onChangeText={onChange}
                   placeholder="Enter account number"
@@ -117,7 +110,7 @@ function BankTransferInput() {
           style={{
             backgroundColor: primaryForegroundColor,
             borderRadius: 100,
-            paddingVertical: 24,
+            paddingVertical: 18,
             justifyContent: "center",
             alignItems: "center",
           }}
