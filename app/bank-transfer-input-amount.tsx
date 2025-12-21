@@ -41,7 +41,7 @@ export default function BankTransferInputAmount() {
     control,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -106,7 +106,8 @@ export default function BankTransferInputAmount() {
                 <TextInput
                   keyboardType="decimal-pad"
                   inputMode="decimal"
-                  value={String(value || 0)}
+                  placeholder="0.00"
+                  value={String(value || "")}
                   onChangeText={(text) => {
                     let sanitized = text.replace(/[^0-9.]/g, "");
                     if (sanitized === "") {
@@ -188,6 +189,7 @@ export default function BankTransferInputAmount() {
             bottom: 0,
           }}
           onPress={handleSubmit(onSubmit)}
+          disabled={!isValid}
         >
           <View
             style={{
@@ -196,6 +198,7 @@ export default function BankTransferInputAmount() {
               paddingVertical: 18,
               justifyContent: "center",
               alignItems: "center",
+              ...(!isValid ? { opacity: 0.7 } : {}),
             }}
           >
             <Text

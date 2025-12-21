@@ -1,10 +1,10 @@
 import TanstackQueryClientProvider from "@/api/TanstackQueryClientProvider";
 import { BankRenderer } from "@/components/bank-item-renderer";
+import { TransferScreenHeader } from "@/components/transfer-screen-header";
 import { BankList } from "@/constants/bank-list";
 import { AccountInfoContextProvider } from "@/contexts/AccountInfoContext";
 import { Stack } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -16,9 +16,9 @@ export default function RootLayout() {
             headerBackButtonDisplayMode: "minimal",
           }}
         >
-          <Stack.Screen name="index" options={{ header: () => <></> }} />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="about" />
-          <Stack.Screen name="transfer" options={{ header: () => <></> }} />
+          <Stack.Screen name="transfer" options={{ headerShown: false }} />
           <Stack.Screen
             name="bank-transfer"
             options={{
@@ -38,21 +38,9 @@ export default function RootLayout() {
             options={({ route }) => ({
               headerTitleAlign: "center",
               headerTitle: () => (
-                <View style={{ alignItems: "center", justifyContent: "center" }}>
-                  <View>
-                    <Text
-                      style={{
-                        fontWeight: 600,
-                        fontSize: 18,
-                      }}
-                    >
-                      {(route.params as { toName: string })?.toName || ""}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text>{(route.params as { toAccountNumber: string })?.toAccountNumber || ""}</Text>
-                  </View>
-                </View>
+                <TransferScreenHeader
+                  route={route as { params: { toName: string; toAccountNumber: string; toBank: string } }}
+                />
               ),
               headerRight: () => (
                 <BankRenderer
@@ -69,7 +57,7 @@ export default function RootLayout() {
               headerTitleAlign: "center",
             }}
           />
-          <Stack.Screen name="bank-transfer-success" options={{ header: () => <></> }} />
+          <Stack.Screen name="bank-transfer-success" options={{ headerShown: false }} />
         </Stack>
       </AccountInfoContextProvider>
     </TanstackQueryClientProvider>
