@@ -1,8 +1,10 @@
+import { BankRenderer } from "@/components/bank-item-renderer";
 import { IconSymbol, IconSymbolName } from "@/components/ui/icon-symbol";
-import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
+import { BankList } from "@/constants/bank-list";
+import { AccountTransaction, useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Href, Link, useRouter } from "expo-router";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Transfer() {
@@ -50,8 +52,7 @@ export default function Transfer() {
         <TransferOption label="Mobile" href={"/about"} iconName="phone" disabled />
         <TransferOption label="Others" href={"/about"} iconName="square.grid.2x2" disabled />
       </View>
-      <Link href="/about">Go to About page</Link>
-      <Text>{JSON.stringify(transactions, null, 2)}</Text>
+      <TransactionsList transactions={transactions} />
     </View>
   );
 }
@@ -98,12 +99,88 @@ function TransferOption({ label, href, iconName, disabled = false }: TransferOpt
       </View>
       <Text
         style={{
-          fontSize: 14,
-          fontWeight: 500,
+          fontSize: 12,
+          fontWeight: 600,
         }}
       >
         {label}
       </Text>
     </Pressable>
+  );
+}
+
+type TransactionsListProps = {
+  transactions: AccountTransaction[];
+};
+
+function TransactionsList({ transactions }: TransactionsListProps) {
+  return (
+    <View
+      style={{
+        gap: 18,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: 600,
+        }}
+      >
+        Recent Transactions
+      </Text>
+      <ScrollView>
+        {transactions.map((transaction) => (
+          <TransactionItem transaction={transaction} key={transaction.id} />
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+type TransactionItemProps = {
+  transaction: AccountTransaction;
+};
+
+function TransactionItem({ transaction }: TransactionItemProps) {
+  const bank = BankList.find((bank) => bank.value === transaction.toBank);
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 18,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 18,
+        }}
+      >
+        <BankRenderer bank={bank} iconOnly />
+        <View>
+          <Text
+            style={{
+              fontSize: 16,
+            }}
+          >
+            {bank?.label}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+            }}
+          >
+            {transaction.toAccountNumber}
+          </Text>
+        </View>
+      </View>
+      <Text>
+        {transaction.toAmount.toLocaleString("en-UK", { style: "currency", currency: "MYR" }).replace("MYR", "RM")}
+      </Text>
+    </View>
   );
 }
