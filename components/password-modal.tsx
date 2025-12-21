@@ -67,9 +67,11 @@ export function PasswordModal({
           <Pressable
             style={{
               bottom: 0,
+              ...(password ? {} : { opacity: 0.5 }),
             }}
             onPress={() => {
               if (password) {
+                setOpenPasswordModal(false);
                 submitTransactionAfterApproval();
               }
             }}

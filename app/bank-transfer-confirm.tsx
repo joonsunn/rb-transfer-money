@@ -1,3 +1,4 @@
+import useCreateTransaction from "@/api/mutations/useCreateTransaction";
 import { BankRenderer } from "@/components/bank-item-renderer";
 import { PasswordModal } from "@/components/password-modal";
 import { Separator } from "@/components/separator";
@@ -7,7 +8,7 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function BankTransferConfirm() {
@@ -50,7 +51,9 @@ export default function BankTransferConfirm() {
     }
   }
 
-  function submitTransactionAfterApproval() {
+  const createTransaction = useCreateTransaction({ addTransaction });
+
+  async function submitTransactionAfterApproval() {
     const now = new Date();
     const newTransaction = {
       dateTime: now.toISOString(),
@@ -60,8 +63,12 @@ export default function BankTransferConfirm() {
       toBank: String(toBank),
       note: optionalNote,
     };
-    addTransaction(newTransaction);
-    router.push({ pathname: "/bank-transfer-success", params: { ...newTransaction, toName } });
+
+    createTransaction.mutate(newTransaction, {
+      onSuccess: () => {
+        router.push({ pathname: "/bank-transfer-success", params: { ...newTransaction, toName } });
+      },
+    });
   }
 
   return (
@@ -219,7 +226,7 @@ export default function BankTransferConfirm() {
               fontWeight: 600,
             }}
           >
-            Approve via Ryt Secure
+            {createTransaction.isPending ? <ActivityIndicator size="small" color="white" /> : `Approve via Ryt Secure`}
           </Text>
         </View>
       </Pressable>

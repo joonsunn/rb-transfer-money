@@ -1,9 +1,11 @@
+import { useGetRecipientInfo } from "@/api/queries/useGetRecipientInfo";
 import { BankRenderer } from "@/components/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
 import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,6 +27,15 @@ export default function BankTransferInputAmount() {
   const router = useRouter();
 
   const { accountBalance } = useAccountInfoContext();
+
+  const { data: recipient, isLoading: recipientIsLoading } = useGetRecipientInfo({
+    accountNumber: toAccountNumber,
+    bank: toBank,
+  });
+
+  useEffect(() => {
+    router.setParams({ toName: recipient?.name });
+  }, [router, recipient?.name]);
 
   const {
     control,
@@ -49,6 +60,14 @@ export default function BankTransferInputAmount() {
       toName,
     };
     router.push({ pathname: "/bank-transfer-confirm", params: newTransaction });
+  }
+
+  if (recipientIsLoading) {
+    return (
+      <View>
+        <Text>Loading....</Text>
+      </View>
+    );
   }
 
   return (

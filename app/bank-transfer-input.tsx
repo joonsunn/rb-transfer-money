@@ -1,11 +1,12 @@
+import { useGetRecipientInfo } from "@/api/queries/useGetRecipientInfo";
 import { BankItemRenderer } from "@/components/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { z } from "zod";
 
@@ -26,6 +27,8 @@ function BankTransferInput() {
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const [accountNumber, setAccountNumber] = useState<string>("");
+  const { data: recipient, isLoading: recipientIsLoading } = useGetRecipientInfo({ accountNumber, bank: params.bank });
 
   const {
     control,
@@ -37,11 +40,17 @@ function BankTransferInput() {
   });
 
   const onSubmit = async (data: TransferRequest) => {
-    router.push({
-      pathname: "/bank-transfer-input-amount",
-      params: { toBank: params.bank, toAccountNumber: data.accountNumber, toName: "JOHN DOE" },
-    });
+    setAccountNumber(data.accountNumber);
   };
+
+  useEffect(() => {
+    if (!recipientIsLoading && recipient?.name) {
+      router.push({
+        pathname: "/bank-transfer-input-amount",
+        params: { toBank: params.bank, toAccountNumber: recipient.accountNumber },
+      });
+    }
+  }, [recipient, params.bank, recipientIsLoading, router]);
 
   return (
     <View
@@ -122,7 +131,7 @@ function BankTransferInput() {
               fontWeight: 600,
             }}
           >
-            Next
+            {recipientIsLoading ? <ActivityIndicator size="small" color="white" /> : "Next"}
           </Text>
         </View>
       </Pressable>

@@ -1,15 +1,15 @@
+import { useGetAllTransactions } from "@/api/queries/useGetAllTransactions";
 import { BankRenderer } from "@/components/bank-item-renderer";
 import { IconSymbol, IconSymbolName } from "@/components/ui/icon-symbol";
 import { BankList } from "@/constants/bank-list";
-import { AccountTransaction, useAccountInfoContext } from "@/contexts/AccountInfoContext";
+import { AccountTransaction } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Href, Link, useRouter } from "expo-router";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Transfer() {
   const insets = useSafeAreaInsets();
-  const { transactions } = useAccountInfoContext();
 
   return (
     <View
@@ -17,7 +17,6 @@ export default function Transfer() {
         flex: 1,
         paddingHorizontal: 14,
         paddingTop: insets.top,
-        paddingBottom: insets.bottom,
         gap: 16,
       }}
     >
@@ -52,7 +51,7 @@ export default function Transfer() {
         <TransferOption label="Mobile" href={"/about"} iconName="phone" disabled />
         <TransferOption label="Others" href={"/about"} iconName="square.grid.2x2" disabled />
       </View>
-      <TransactionsList transactions={transactions} />
+      <TransactionsList />
     </View>
   );
 }
@@ -109,15 +108,18 @@ function TransferOption({ label, href, iconName, disabled = false }: TransferOpt
   );
 }
 
-type TransactionsListProps = {
-  transactions: AccountTransaction[];
-};
+function TransactionsList() {
+  const insets = useSafeAreaInsets();
 
-function TransactionsList({ transactions }: TransactionsListProps) {
+  const { data: transactions, isLoading, isFetching } = useGetAllTransactions();
+  const primaryForegroundColor = useThemeColor({}, "primaryForeground");
+
   return (
     <View
       style={{
         gap: 18,
+        flex: 1,
+        paddingBottom: insets.bottom,
       }}
     >
       <Text
@@ -129,9 +131,11 @@ function TransactionsList({ transactions }: TransactionsListProps) {
         Recent Transactions
       </Text>
       <ScrollView>
-        {transactions.map((transaction) => (
-          <TransactionItem transaction={transaction} key={transaction.id} />
-        ))}
+        {isLoading || isFetching ? (
+          <ActivityIndicator size="small" color={primaryForegroundColor} />
+        ) : (
+          transactions?.map((transaction) => <TransactionItem transaction={transaction} key={transaction.id} />)
+        )}
       </ScrollView>
     </View>
   );
