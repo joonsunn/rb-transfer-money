@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { z } from "zod";
 
@@ -65,7 +65,7 @@ export default function BankTransferInputAmount() {
   if (recipientIsLoading) {
     return (
       <View>
-        <Text>Loading....</Text>
+        <ActivityIndicator size="small" color="primaryForegroundColor" />
       </View>
     );
   }
@@ -133,6 +133,7 @@ export default function BankTransferInputAmount() {
                     padding: 10,
                     fontSize: 48,
                     fontWeight: 600,
+                    width: 200,
                   }}
                 />
               </View>
