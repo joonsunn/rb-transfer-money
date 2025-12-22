@@ -1,4 +1,4 @@
-import { BankItemRenderer } from "@/components/bank-item-renderer";
+import { BankItemRenderer } from "@/components/transfer/bank-transfer/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feather } from "@expo/vector-icons";

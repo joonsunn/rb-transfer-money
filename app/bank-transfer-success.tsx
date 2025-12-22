@@ -1,5 +1,5 @@
-import { BankRenderer } from "@/components/bank-item-renderer";
 import { Separator } from "@/components/separator";
+import { BankRenderer } from "@/components/transfer/bank-transfer/bank-item-renderer";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { BankList } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";

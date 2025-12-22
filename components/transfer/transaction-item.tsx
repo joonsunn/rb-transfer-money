@@ -1,7 +1,7 @@
 import { BankList } from "@/constants/bank-list";
 import { AccountTransaction } from "@/contexts/AccountInfoContext";
 import { Text, View } from "react-native";
-import { BankRenderer } from "./bank-item-renderer";
+import { BankRenderer } from "./bank-transfer/bank-item-renderer";
 
 type TransactionItemProps = {
   transaction: AccountTransaction;

@@ -1,7 +1,7 @@
 import useCreateTransaction from "@/api/mutations/useCreateTransaction";
-import { BankRenderer } from "@/components/bank-item-renderer";
-import { PasswordModal } from "@/components/password-modal";
 import { Separator } from "@/components/separator";
+import { BankRenderer } from "@/components/transfer/bank-transfer/bank-item-renderer";
+import { PasswordModal } from "@/components/transfer/password-modal";
 import { BankList } from "@/constants/bank-list";
 import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";

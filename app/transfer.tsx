@@ -1,5 +1,5 @@
-import { TransactionsList } from "@/components/transaction-list";
-import { TransferOption } from "@/components/transfer-option";
+import { TransactionsList } from "@/components/transfer/transaction-list";
+import { TransferOption } from "@/components/transfer/transfer-option";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Link } from "expo-router";
 import { Platform, Text, View } from "react-native";

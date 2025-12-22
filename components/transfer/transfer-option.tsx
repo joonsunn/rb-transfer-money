@@ -1,7 +1,7 @@
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Href, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
-import { IconSymbol, IconSymbolName } from "./ui/icon-symbol";
+import { IconSymbol, IconSymbolName } from "../ui/icon-symbol";
 
 type TransferOptionProps = {
   label: string;

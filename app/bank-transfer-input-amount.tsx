@@ -1,5 +1,5 @@
 import { useGetRecipientInfo } from "@/api/queries/useGetRecipientInfo";
-import { BankRenderer } from "@/components/bank-item-renderer";
+import { BankRenderer } from "@/components/transfer/bank-transfer/bank-item-renderer";
 import { BankList } from "@/constants/bank-list";
 import { useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { useThemeColor } from "@/hooks/use-theme-color";

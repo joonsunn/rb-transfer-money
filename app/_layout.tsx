@@ -1,6 +1,6 @@
 import TanstackQueryClientProvider from "@/api/TanstackQueryClientProvider";
-import { BankRenderer } from "@/components/bank-item-renderer";
-import { TransferScreenHeader } from "@/components/transfer-screen-header";
+import { BankRenderer } from "@/components/transfer/bank-transfer/bank-item-renderer";
+import { TransferScreenHeader } from "@/components/transfer/transfer-screen-header";
 import { BankList } from "@/constants/bank-list";
 import { AccountInfoContextProvider } from "@/contexts/AccountInfoContext";
 import { Stack } from "expo-router";

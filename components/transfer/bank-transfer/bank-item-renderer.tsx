@@ -1,8 +1,8 @@
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import { BankListOption } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useRouter } from "expo-router";
 import { Platform, Pressable, Text, View } from "react-native";
-import { IconSymbol } from "./ui/icon-symbol";
 
 type BankOptionProps = {
   bank: BankListOption | undefined | null;
