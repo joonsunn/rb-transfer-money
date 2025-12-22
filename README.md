@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a mobile application built with React Native and Expo for transferring money between bank accounts. The app provides a user-friendly interface for initiating and confirming bank transfers.
+This is a mobile application built with React Native and Expo for sending money to bank accounts. The app provides a user-friendly interface for initiating and confirming bank transfers.
 
 ## Setup Instructions
 
@@ -31,20 +31,22 @@ This is a mobile application built with React Native and Expo for transferring m
 3. Start the Expo development server:
 
    ```bash
-   npx expo start
+   npm run start
    ```
 
 4. Run the app on an emulator or physical device:
    - For Android: Press `a` in the terminal to launch the Android emulator.
    - For iOS: Press `i` in the terminal to launch the iOS simulator.
+   - Web browser: Press `w` in the terminal to launch the app in the web browser (the app will be live on `http://localhost:8081`).
 
 ### Assumptions
 
-- You have an Android or iOS emulator set up, or a physical device connected for testing.
+- You have an Android or iOS emulator set up, or a physical device connected for testing. Otherwise, you may test the application on a desktop web browser.
 - Ensure you have a stable internet connection for fetching dependencies and running the app.
 
 ## Design Decisions
 
+- **Expo**: Provides a managed workflow for building React Native apps, and simplifying development across iOS and Android platforms.
 - **UI/UX**: Inspired by the app of the first AI-powered digital bank in Malaysia, focusing on a modern and intuitive user experience.
 - **TanStack Query**: Chosen for efficient data fetching and state management, providing a robust solution for handling API calls and caching. It is also used as an abstraction layer on top of grabbing data from the `AccountInfoContext` to simulate API requests (mainly to add delay, and query invalidations).
 - **React Hook Form**: Used for managing form state and validation, ensuring a seamless and performant user input experience.
@@ -75,8 +77,8 @@ Overall, these challenges provided valuable learning experiences and insights in
 
 #### Android
 
-[![Android demo video](https://github.com/user-attachments/assets/f9d5d91d-ca85-417b-8d3a-62556d584e1c)](https://github.com/user-attachments/assets/f9d5d91d-ca85-417b-8d3a-62556d584e1c)
+[![Android demo video](https://github.com/user-attachments/assets/249dfcbd-7757-41d7-84cd-608ea444c867)](https://github.com/user-attachments/assets/249dfcbd-7757-41d7-84cd-608ea444c867)
 
 #### iOS
 
-[![iOS demo video](https://github.com/user-attachments/assets/144f8d45-d760-4a74-879f-d86095f9c711)](https://github.com/user-attachments/assets/144f8d45-d760-4a74-879f-d86095f9c711)
+[![iOS demo video](https://github.com/user-attachments/assets/c5cb0cd2-b22a-4e56-b398-6be9ae87bee6)](https://github.com/user-attachments/assets/c5cb0cd2-b22a-4e56-b398-6be9ae87bee6)
