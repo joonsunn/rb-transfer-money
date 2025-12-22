@@ -1,5 +1,5 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -10,6 +10,7 @@ export default function Index() {
   const insets = useSafeAreaInsets();
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
   const primary = useThemeColor({}, "primary");
+  const router = useRouter();
 
   const { accountBalance } = useAccountInfoContext();
 
@@ -60,32 +61,32 @@ export default function Index() {
         <View
           style={{
             width: "100%",
+            flexDirection: "row",
+            gap: 12,
           }}
         >
-          <Link href="/transfer">
-            <View style={{ gap: 12 }}>
-              <View
-                style={{
-                  backgroundColor: primaryForegroundColor,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 100,
-                  width: 52,
-                  height: 52,
-                }}
-              >
-                <IconSymbol name="arrow.up.right" color="white" />
-              </View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Transfer
-              </Text>
+          <Pressable style={{ gap: 8, alignItems: "center", padding: 8 }} onPress={() => router.push("/transfer")}>
+            <View
+              style={{
+                backgroundColor: primaryForegroundColor,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                width: 52,
+                height: 52,
+              }}
+            >
+              <IconSymbol name="arrow.up.right" color="white" />
             </View>
-          </Link>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 500,
+              }}
+            >
+              Transfer
+            </Text>
+          </Pressable>
         </View>
       </View>
     </View>
