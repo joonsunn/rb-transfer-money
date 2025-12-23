@@ -126,38 +126,6 @@ export default function BankTransferSuccess() {
             >
               <Text
                 style={{
-                  fontSize: 16,
-                  color: "grey",
-                }}
-              >
-                Paid from
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 600,
-                }}
-              >
-                Main Account
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: tintColor,
-              padding: 18,
-              borderRadius: 20,
-              gap: 18,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text
-                style={{
                   fontSize: 18,
                   fontWeight: 500,
                   color: "grey",

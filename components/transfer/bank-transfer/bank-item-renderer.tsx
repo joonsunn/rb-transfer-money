@@ -20,7 +20,7 @@ export function BankItemRenderer({ bank, navigate }: BankOptionProps) {
     return (
       <Pressable
         android_ripple={{ color: primaryColor, foreground: true }}
-        onPress={() => router.push({ pathname: "/bank-transfer-input", params: { bank: bank.value } })}
+        onPress={() => router.push({ pathname: "/transfer/bank-transfer/input", params: { bank: bank.value } })}
         style={{ width: "100%" }}
       >
         <BankRenderer bank={bank} navigate />
@@ -40,14 +40,13 @@ export function BankRenderer({ bank, navigate, iconOnly = false }: BankOptionPro
     <View
       style={{
         flexDirection: "row",
-        // padding: 16,
         alignItems: "center",
         justifyContent: "space-between",
-        ...(iconOnly ? {} : { padding: 16 }),
         ...(iconOnly
           ? {}
           : {
               width: "100%",
+              padding: 16,
             }),
       }}
     >

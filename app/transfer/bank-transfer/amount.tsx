@@ -59,7 +59,7 @@ export default function BankTransferInputAmount() {
       toBank,
       toName,
     };
-    router.push({ pathname: "/bank-transfer-confirm", params: newTransaction });
+    router.push({ pathname: "/transfer/bank-transfer/confirm", params: newTransaction });
   }
 
   if (recipientIsLoading) {

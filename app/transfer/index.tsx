@@ -44,7 +44,7 @@ export default function Transfer() {
           justifyContent: "space-evenly",
         }}
       >
-        <TransferOption label="Bank/eWallet" href={"/bank-transfer"} iconName="house.fill" />
+        <TransferOption label="Bank/eWallet" href={"/transfer/bank-transfer"} iconName="house.fill" />
         <TransferOption label="Mobile" href={"/about"} iconName="phone" disabled />
         <TransferOption label="Others" href={"/about"} iconName="square.grid.2x2" disabled />
       </View>

@@ -50,7 +50,7 @@ function BankTransferInput() {
   useEffect(() => {
     if (!recipientIsLoading && recipient?.name && submitCount > 0) {
       router.push({
-        pathname: "/bank-transfer-input-amount",
+        pathname: "/transfer/bank-transfer/amount",
         params: { toBank: params.bank, toAccountNumber: recipient.accountNumber },
       });
       setSubmitCount(0);

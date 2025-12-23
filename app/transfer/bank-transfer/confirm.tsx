@@ -66,7 +66,7 @@ export default function BankTransferConfirm() {
 
     createTransaction.mutate(newTransaction, {
       onSuccess: () => {
-        router.push({ pathname: "/bank-transfer-success", params: { ...newTransaction, toName } });
+        router.push({ pathname: "/transfer/bank-transfer/success", params: { ...newTransaction, toName } });
       },
     });
   }
