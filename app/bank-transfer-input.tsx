@@ -38,6 +38,7 @@ function BankTransferInput() {
     formState: { errors, isValid },
   } = useForm<TransferRequest>({
     resolver: zodResolver(schema),
+    mode: "onChange",
     defaultValues: { accountNumber },
   });
 
