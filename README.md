@@ -42,6 +42,7 @@ This is a mobile application built with React Native and Expo for sending money 
 ### Assumptions
 
 - You have an Android or iOS emulator set up, or a physical device connected for testing. Otherwise, you may test the application on a desktop web browser.
+- The Android or iOS emulator (or device) has biometric authentication (FaceID (iOS) or fingerprint (Android)) already set up. Otherwise, the transaction approval screen will fallback to password authentication.
 - Ensure you have a stable internet connection for fetching dependencies and running the app.
 
 ## Design Decisions
@@ -49,6 +50,7 @@ This is a mobile application built with React Native and Expo for sending money 
 - **Expo**: Provides a managed workflow for building React Native apps, and simplifying development across iOS and Android platforms.
 - **UI/UX**: Inspired by the app of the first AI-powered digital bank in Malaysia, focusing on a modern and intuitive user experience.
 - **TanStack Query**: Chosen for efficient data fetching and state management, providing a robust solution for handling API calls and caching. It is also used as an abstraction layer on top of grabbing data from the `AccountInfoContext` to simulate API requests (mainly to add delay, and query invalidations).
+- **Mock functions**: Several functions are mocked, such as password authentication, account info, and recipient info retrieval. This is done to limit the scope of the app
 - **React Hook Form**: Used for managing form state and validation, ensuring a seamless and performant user input experience.
 - **Zod**: Integrated for schema validation, ensuring data integrity and consistency across the application.
 - **expo-local-authentication**: Implemented for secure user authentication, leveraging device-specific biometric authentication methods.
