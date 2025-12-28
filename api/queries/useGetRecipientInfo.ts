@@ -1,6 +1,7 @@
 import { sleep } from "@/utils/sleep";
 import { useQuery } from "@tanstack/react-query";
 
+// TODO: replace with actual network request to retrieve recipient info
 const getRecipientInfo = async ({
   accountNumber,
   name,

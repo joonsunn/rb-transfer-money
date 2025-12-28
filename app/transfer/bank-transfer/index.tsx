@@ -3,7 +3,7 @@ import { BankList } from "@/constants/bank-list";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { Platform, ScrollView, TextInput, View } from "react-native";
+import { FlatList, Platform, TextInput, View } from "react-native";
 
 export default function BankTransfer() {
   const [searchText, setSearchText] = useState("");
@@ -44,15 +44,14 @@ export default function BankTransfer() {
         />
         <Feather name="search" size={20} color="black" />
       </View>
-      <ScrollView
+      <FlatList
         style={{
           backgroundColor: tintColor,
         }}
-      >
-        {filteredBanksList.map((bank, index) => (
-          <BankItemRenderer key={index} bank={bank} navigate />
-        ))}
-      </ScrollView>
+        data={filteredBanksList}
+        keyExtractor={(item) => item.value}
+        renderItem={({ item }) => <BankItemRenderer bank={item} navigate />}
+      />
     </View>
   );
 }
