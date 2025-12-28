@@ -12,10 +12,10 @@ const getTransactions = async ({ transactions }: { transactions: AccountTransact
 export const useGetAllTransactions = () => {
   const { transactions } = useAccountInfoContext();
 
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, isFetching, refetch, error } = useQuery({
     queryKey: ["transactions"],
     queryFn: () => getTransactions({ transactions }),
   });
 
-  return { data, isLoading, isFetching, refetch };
+  return { data, isLoading, isFetching, refetch, error };
 };

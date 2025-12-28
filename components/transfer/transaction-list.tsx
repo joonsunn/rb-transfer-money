@@ -8,8 +8,24 @@ import { TransactionItem } from "./transaction-item";
 export function TransactionsList() {
   const insets = useSafeAreaInsets();
 
-  const { data: transactions, isLoading, isFetching, refetch } = useGetAllTransactions();
+  const { data: transactions, isLoading, isFetching, refetch, error } = useGetAllTransactions();
   const primaryForegroundColor = useThemeColor({}, "primaryForeground");
+
+  if (error) {
+    return (
+      <View
+        style={{
+          gap: 18,
+          flex: 1,
+          paddingBottom: insets.bottom,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 16, color: "red" }}>Failed to load transactions.</Text>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -29,7 +45,7 @@ export function TransactionsList() {
       </Text>
       {isLoading || isFetching ? (
         <ActivityIndicator size="small" color={primaryForegroundColor} />
-      ) : (
+      ) : transactions && transactions.length > 0 ? (
         <FlatList
           data={transactions}
           keyExtractor={(item) => item.id}
@@ -37,6 +53,10 @@ export function TransactionsList() {
           refreshing={isLoading || isFetching}
           onRefresh={refetch}
         />
+      ) : (
+        <View style={{ height: 240, justifyContent: "center", alignItems: "center" }}>
+          <Text style={{ fontSize: 16 }}>No transactions found.</Text>
+        </View>
       )}
     </View>
   );
