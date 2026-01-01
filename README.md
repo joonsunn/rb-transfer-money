@@ -35,8 +35,8 @@ This is a mobile application built with React Native and Expo for sending money 
    ```
 
 4. Run the app on an emulator or physical device:
-   - For Android: Press `a` in the terminal to launch the Android emulator.
-   - For iOS: Press `i` in the terminal to launch the iOS simulator.
+   - For Android: Press `a` in the terminal to launch the Android emulator. If an error message appears that says "development build not installed", kill the development server and run `npm run android` instead.
+   - For iOS: Press `i` in the terminal to launch the iOS simulator. If an error message appears that says "development build not installed", kill the development server and run `npm run ios` instead.
    - Web browser: Press `w` in the terminal to launch the app in the web browser (the app will be live on `http://localhost:8081`).
 
 ### Assumptions
