@@ -2,14 +2,17 @@ import { BankRenderer } from "@/components/transfer/bank-transfer/bank-item-rend
 import { TransferScreenHeader } from "@/components/transfer/transfer-screen-header";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { BankList } from "@/constants/bank-list";
-import { Link, Stack } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import React from "react";
+import { Pressable } from "react-native";
 
 export default function BankTransferLayout() {
+  const navigation = useNavigation();
+
   return (
     <Stack
       screenOptions={{
-        animation: "none",
+        animation: "ios_from_right",
         headerBackButtonDisplayMode: "minimal",
       }}
     >
@@ -19,9 +22,9 @@ export default function BankTransferLayout() {
           headerTitle: "Transfer",
           headerTitleAlign: "center",
           headerLeft: () => (
-            <Link href="/transfer">
+            <Pressable onPress={() => navigation.goBack()}>
               <IconSymbol name="chevron.left" size={24} color="black" />
-            </Link>
+            </Pressable>
           ),
         }}
       />

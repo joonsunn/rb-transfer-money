@@ -9,7 +9,7 @@ export default function RootLayout() {
       <AccountInfoContextProvider>
         <Stack
           screenOptions={{
-            animation: "none",
+            animation: "ios_from_right",
             headerBackButtonDisplayMode: "minimal",
           }}
         >

@@ -1,12 +1,13 @@
 import { TransactionsList } from "@/components/transfer/transaction-list";
 import { TransferOption } from "@/components/transfer/transfer-option";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Link } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { useNavigation } from "expo-router";
+import { Platform, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TransferMain() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   return (
     <View
@@ -17,7 +18,7 @@ export default function TransferMain() {
         gap: 16,
       }}
     >
-      <Link href="/">
+      <Pressable onPress={() => navigation.goBack()}>
         <IconSymbol
           name="chevron.left"
           color={"black"}
@@ -26,7 +27,7 @@ export default function TransferMain() {
             android: 48,
           })}
         />
-      </Link>
+      </Pressable>
       <Text
         style={{
           fontSize: 32,

@@ -5,7 +5,7 @@ export default function TransferLayout() {
   return (
     <Stack
       screenOptions={{
-        animation: "none",
+        animation: "ios_from_right",
         headerBackButtonDisplayMode: "minimal",
         headerShown: false,
       }}
