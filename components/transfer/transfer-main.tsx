@@ -46,8 +46,8 @@ export default function TransferMain() {
         }}
       >
         <TransferOption label="Bank/eWallet" href={"/transfer/bank-transfer"} iconName="house.fill" />
-        <TransferOption label="Mobile" href={"/about"} iconName="phone" disabled />
-        <TransferOption label="Others" href={"/about"} iconName="square.grid.2x2" disabled />
+        <TransferOption label="Mobile" href={"/"} iconName="phone" disabled />
+        <TransferOption label="Others" href={"/"} iconName="square.grid.2x2" disabled />
       </View>
       <TransactionsList />
     </View>

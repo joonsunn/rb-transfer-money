@@ -30,6 +30,7 @@ export function TransferOption({ label, href, iconName, disabled = false }: Tran
         ...(disabled ? { opacity: 0.3 } : {}),
       }}
       onPress={() => router.push(href)}
+      disabled={disabled}
     >
       <View
         style={{
