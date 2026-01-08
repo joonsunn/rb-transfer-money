@@ -1,5 +1,6 @@
 import { sleep } from "@/utils/sleep";
 import { useQuery } from "@tanstack/react-query";
+import { recipientKeys } from "../query-keys";
 
 // TODO: replace with actual network request to retrieve recipient info
 const getRecipientInfo = async ({
@@ -17,7 +18,7 @@ const getRecipientInfo = async ({
 
 export const useGetRecipientInfo = ({ accountNumber, bank }: { accountNumber: string; bank: string }) => {
   const { data, isLoading } = useQuery({
-    queryKey: ["recipient-info", accountNumber],
+    queryKey: recipientKeys.getRecipientInfo(accountNumber),
     queryFn: () => getRecipientInfo({ accountNumber, bank, name: "JOHN DOE" }),
     enabled: !!accountNumber,
   });

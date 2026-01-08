@@ -1,6 +1,7 @@
 import { AccountTransaction, useAccountInfoContext } from "@/contexts/AccountInfoContext";
 import { sleep } from "@/utils/sleep";
 import { useQuery } from "@tanstack/react-query";
+import { accountInfoKeys } from "../query-keys";
 
 // TODO: replace with actual network request using axios or fetch
 const getTransactions = async ({ transactions }: { transactions: AccountTransaction[] }) => {
@@ -13,7 +14,7 @@ export const useGetAllTransactions = () => {
   const { transactions } = useAccountInfoContext();
 
   const { data, isLoading, isFetching, refetch, error } = useQuery({
-    queryKey: ["transactions"],
+    queryKey: accountInfoKeys.getAllTransactions(),
     queryFn: () => getTransactions({ transactions }),
   });
 
